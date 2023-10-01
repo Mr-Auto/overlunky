@@ -1,4 +1,5 @@
 import re
+import os
 
 import parse_source as ps
 
@@ -43,6 +44,8 @@ def replace_all(text):
             continue
         text = text.replace(repl, wth)
     return text
+
+print(os.getcwd())
 
 ps.configure_parse(replace_all, "slate.pickle")
 ps.run_parse()
