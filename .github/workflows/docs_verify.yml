@@ -11,7 +11,9 @@ jobs:
   check:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3  
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
       - uses: actions/setup-python@v2  
       - name: Checking if all the types are documented in the API doc
         run: |
