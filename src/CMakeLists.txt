@@ -79,6 +79,7 @@ if(MSVC)
         endif()
 else()
         target_compile_options(overlunky_warnings INTERFACE -Wall -Wextra -pedantic -Werror)
+        target_compile_options(overlunky_warnings INTERFACE -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH)
         target_compile_options(overlunky_warnings INTERFACE -Wno-missing-field-initializers -Wno-microsoft-cast -Wno-gnu-anonymous-struct -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-microsoft-enum-value -Wno-deprecated-declarations -Wno-language-extension-token -Wno-sign-compare)
 endif()
 
