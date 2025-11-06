@@ -214,10 +214,10 @@ if(BUILD_OVERLUNKY)
                 endif()
         endif()
 endif()
-
-add_subdirectory(sockpp)
 set(SOCKPP_BUILD_SHARED OFF)
 set(SOCKPP_BUILD_STATIC ON)
+
+add_subdirectory(sockpp)
 target_include_directories(spel2_api PUBLIC sockpp/include)
 target_link_libraries_system(spel2_api PUBLIC sockpp-static)
 
