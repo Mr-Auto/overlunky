@@ -216,8 +216,7 @@ if(BUILD_OVERLUNKY)
 endif()
 
 add_subdirectory(sockpp)
-target_link_libraries(spel2_api Sockpp::sockpp)
-#target_include_directories(spel2_api PUBLIC sockpp/include)
+target_include_directories(spel2_api PUBLIC sockpp/include)
 #target_link_libraries_system(spel2_api PUBLIC sockpp-static)
 
 # --------------------------------------------------
