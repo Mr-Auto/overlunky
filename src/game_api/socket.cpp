@@ -1,16 +1,14 @@
 #include "socket.hpp"
 
 #include <Windows.h>             // for GetModuleHandleA, GetProcAddress
-#include <algorithm>             // for max
+#include <chrono>                // for chrono
 #include <detours.h>             // for DetourAttach, DetourTransactionBegin
-#include <exception>             // for exception
 #include <new>                   // for operator new
 #include <sockpp/inet_address.h> // for inet_address
 #include <sockpp/udp_socket.h>   // for udp_socket
 #include <thread>                // for thread
 #include <tuple>                 // for get
 #include <type_traits>           // for move
-#include <utility>               // for max, min
 #include <wininet.h>             // for InternetCloseHandle, InternetOpenA, InternetG...
 #include <winsock2.h>            // for sockaddr_in, SOCKET
 #include <ws2tcpip.h>            // for inet_ntop
@@ -53,40 +51,88 @@ void dump_network()
     }
 }
 
-void udp_data(sockpp::udp_socket socket, UdpServer* server)
+void UdpServer::callback(sockpp::udp_socket sock, std::function<UdpServer::SocketCb> cb)
 {
-    ssize_t n;
-    char buf[500];
-    sockpp::inet_address src;
-    while (server->kill_thr.test(std::memory_order_acquire) && (n = socket.recv_from(buf, sizeof(buf), &src)) > 0)
+    static thread_local char buf[32768];
+    while (m_opened.load(std::memory_order::relaxed) && m_sock.is_open())
     {
-        std::optional<std::string> ret = server->cb(std::string(buf, n));
-        if (ret)
+        sockpp::inet_address src;
+        ssize_t n;
+        while ((n = sock.recv_from(buf, sizeof(buf), &src)) > 0)
         {
-            socket.send_to(ret.value(), src);
+            std::optional<std::string> ret = cb(std::string(buf, n), src.to_string());
+            if (ret.has_value())
+                sock.send_to(ret.value(), src);
         }
+        std::this_thread::sleep_for(std::chrono::microseconds(1));
     }
+    m_opened = false;
+    sock.shutdown();
 }
 
-UdpServer::UdpServer(std::string host_, in_port_t port_, std::function<SocketCb> cb_)
-    : host(host_), port(port_), cb(cb_)
+UdpServer::UdpServer(std::string host, in_port_t port)
+    : m_host(host), m_port(port)
 {
-    sock.bind(sockpp::inet_address(host, port));
-    kill_thr.test_and_set();
-    thr = std::thread(udp_data, std::move(sock), this);
+    if (m_sock.bind(sockpp::inet_address(host, port)))
+    {
+        const auto addr = sockpp::inet_address(m_sock.address());
+        port = addr.port();
+        m_opened = true;
+        m_sock.set_non_blocking();
+    }
 }
-void UdpServer::clear() // TODO: fix and expose: this and the destructor causes deadlock
+void UdpServer::close()
 {
-    kill_thr.clear(std::memory_order_release);
-    thr.join();
+    m_opened = false;
+    if (!m_thread.joinable())
+        m_sock.close();
+}
+ssize_t UdpServer::send(std::string message, std::string host, in_port_t port)
+{
+    if (!is_open())
+        return -1;
+
+    return m_sock.send_to(message, sockpp::inet_address(host, port));
+}
+ssize_t UdpServer::read(std::function<ReadFun> fun)
+{
+    if (!is_open())
+        return -1;
+
+    static char buf[32768];
+    sockpp::inet_address src;
+    auto ret = m_sock.recv_from(buf, sizeof(buf), &src);
+
+    if (ret > -1)
+        fun(std::string(buf, static_cast<size_t>(ret)), src.to_string());
+
+    return ret;
+}
+bool UdpServer::is_open() const
+{
+    return m_opened.load(std::memory_order::memory_order_relaxed) && m_sock.is_open() && m_sock.last_error() > -1;
+}
+void UdpServer::start_callback(std::function<SocketCb> cb)
+{
+    if (!m_thread.joinable())
+    {
+        auto sock_copy = m_sock.clone();
+        m_thread = std::thread(&UdpServer::callback, this, std::move(sock_copy), std::move(cb));
+    }
+}
+std::string UdpServer::last_error() const
+{
+    auto err = m_sock.last_error_str();
+    err.resize(err.size() - 2);
+    return err;
 }
 UdpServer::~UdpServer()
 {
-    if (thr.joinable())
-    {
-        kill_thr.clear(std::memory_order_release);
-        thr.join();
-    }
+    close();
+    if (m_thread.joinable())
+        m_thread.join();
+
+    m_sock.close();
 }
 
 bool http_get(const char* sURL, std::string& out, std::string& err)
@@ -97,7 +143,7 @@ bool http_get(const char* sURL, std::string& out, std::string& err)
     const char* sHeader = NULL;
     HINTERNET hInternet;
     HINTERNET hConnect;
-    char acBuffer[BUFFER_SIZE];
+    static thread_local char acBuffer[BUFFER_SIZE];
     DWORD iReadBytes;
     DWORD iBytesToRead = 0;
     DWORD iReadBytesOfRq = 4;
