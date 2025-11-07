@@ -214,7 +214,6 @@ if(BUILD_OVERLUNKY)
                 endif()
         endif()
 endif()
-set(SOCKPP_BUILD_SHARED OFF)
 set(SOCKPP_BUILD_STATIC ON)
 
 add_subdirectory(sockpp)
