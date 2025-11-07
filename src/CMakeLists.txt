@@ -214,7 +214,9 @@ if(BUILD_OVERLUNKY)
                 endif()
         endif()
 endif()
-set(SOCKPP_BUILD_STATIC ON)
+
+set(SOCKPP_BUILD_SHARED OFF CACHE BOOL "No shared")
+set(SOCKPP_BUILD_STATIC ON CACHE BOOL "Static")
 
 add_subdirectory(sockpp)
 target_include_directories(spel2_api PUBLIC sockpp/include)
