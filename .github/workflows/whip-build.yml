@@ -64,20 +64,18 @@ jobs:
                 -DCMAKE_BUILD_TYPE=Release `
                 -DCMAKE_C_COMPILER=clang `
                 -DCMAKE_CXX_COMPILER=clang++ `
-                -GNinja `
                 "-DLUA_LOCAL_DIR=$luaSource"
           }
           else {
               Write-Host "Lua cache unavailable. Using sol2's normal download method."
-              cmake .. `
+              cmake -S . -B build -G Ninja `
                 -DBUILD_INFO_DUMP=OFF `
                 -DBUILD_SPEL2_DLL=OFF `
                 -DCMAKE_BUILD_TYPE=Release `
                 -DCMAKE_C_COMPILER=clang `
                 -DCMAKE_CXX_COMPILER=clang++ `
-                -GNinja
           }
-          cmake --build . --config Release
+          cmake --build build --config Release
 
       - name: Create artifacts
         run: |
