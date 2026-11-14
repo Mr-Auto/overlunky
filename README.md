@@ -12,6 +12,7 @@ An overlay for Spelunky 2 to help you with modding, exploring the depths of the 
 ## Disclaimer
 You are strongly discouraged from using any modding tools in your actual online Steam installation as to prevent unlocking achievements, ruining or corrupting your savefile and cheating while using online features. You should make a copy of your game somewhere else and install [Mr. Goldbergs Steam Emulator](https://mr_goldberg.gitlab.io/goldberg_emulator/) in the game directory. (Just replace steam_api64.dll with the one in the zip and that copy of the game can't talk to Steam no more!) If you break anything using this tool you get to keep both pieces. Do not report modding related bugs to BlitWorks.
 
+
 **Steam achievements and game saves are disabled by default while running Overlunky though.**
 
 ## Installation and usage
