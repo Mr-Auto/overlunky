@@ -62,6 +62,7 @@ jobs:
                 -DBUILD_INFO_DUMP=OFF `
                 -DBUILD_SPEL2_DLL=OFF `
                 -DCMAKE_BUILD_TYPE=Release `
+                -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON `
                 -DCMAKE_C_COMPILER=clang `
                 -DCMAKE_CXX_COMPILER=clang++ `
                 "-DLUA_LOCAL_DIR=$luaSource"
@@ -72,6 +73,7 @@ jobs:
                 -DBUILD_INFO_DUMP=OFF `
                 -DBUILD_SPEL2_DLL=OFF `
                 -DCMAKE_BUILD_TYPE=Release `
+                -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON `
                 -DCMAKE_C_COMPILER=clang `
                 -DCMAKE_CXX_COMPILER=clang++ `
           }
