@@ -24,7 +24,8 @@ on:
       do_formatting:
         description: "Run clang-format inplace formatting and commit the result"
         required: true
-        default: "false"
+        default: false
+        type: boolean
 
 jobs:
   build:
