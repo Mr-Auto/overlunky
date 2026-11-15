@@ -4158,22 +4158,6 @@ end, ON.POST_ROOM_GENERATION)
 `nil force_dark_level(bool g)`<br/>
 Set level flag 18 on post room generation instead, to properly force every level to dark
 
-### get_entities
-
-
-> Search script examples for [get_entities](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=get_entities)
-
-`vector&lt;int&gt; get_entities()`<br/>
-Use `get_entities_by(0, MASK.ANY, LAYER.BOTH)` instead
-
-### get_entities_by_mask
-
-
-> Search script examples for [get_entities_by_mask](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=get_entities_by_mask)
-
-`vector&lt;int&gt; get_entities_by_mask([MASK](#MASK) mask)`<br/>
-Use `get_entities_by(0, mask, LAYER.BOTH)` instead
-
 ### get_entities_by_layer
 
 

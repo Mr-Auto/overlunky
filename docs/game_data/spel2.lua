@@ -2183,13 +2183,6 @@ function read_prng() end
 ---@param g boolean
 ---@return nil
 function force_dark_level(g) end
----@deprecated Use `get_entities_by(0, MASK.ANY, LAYER.BOTH)` instead
----@return integer[]
-function get_entities() end
----@deprecated Use `get_entities_by(0, mask, LAYER.BOTH)` instead
----@param mask MASK
----@return integer[]
-function get_entities_by_mask(mask) end
 ---@deprecated Use `get_entities_by(0, MASK.ANY, layer)` instead
 ---@param layer LAYER
 ---@return integer[]
