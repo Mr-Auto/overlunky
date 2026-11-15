@@ -651,9 +651,6 @@ float | [a](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=a) |
 [Color](#Color) | [olive()](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=olive) | 
 [Color](#Color) | [lime()](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=lime) | 
 [Color](#Color) | [green()](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=green) | 
-[Color](#Color) | [aqua()](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=aqua) | 
-[Color](#Color) | [teal()](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=teal) | 
-[Color](#Color) | [blue()](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=blue) | 
 [Color](#Color) | [navy()](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=navy) | 
 [Color](#Color) | [fuchsia()](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=fuchsia) | 
 [Color](#Color) | [purple()](https://github.com/spelunky-fyi/overlunky/search?l=Lua&q=purple) | 

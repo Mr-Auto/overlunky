@@ -7394,12 +7394,6 @@ function Color:lime() end
 ---@return Color
 function Color:green() end
 ---@return Color
-function Color:aqua() end
----@return Color
-function Color:teal() end
----@return Color
-function Color:blue() end
----@return Color
 function Color:navy() end
 ---@return Color
 function Color:fuchsia() end
