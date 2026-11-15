@@ -37,9 +37,6 @@ void register_usertypes(sol::state& lua)
     color_type["olive"] = &Color::olive;
     color_type["lime"] = &Color::lime;
     color_type["green"] = &Color::green;
-    color_type["aqua"] = &Color::aqua;
-    color_type["teal"] = &Color::teal;
-    color_type["blue"] = &Color::blue;
     color_type["navy"] = &Color::navy;
     color_type["fuchsia"] = &Color::fuchsia;
     color_type["purple"] = &Color::purple;
