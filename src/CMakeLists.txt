@@ -107,33 +107,11 @@ endif()
 
 if(BUILD_OVERLUNKY)
         # --------------------------------------------------
-        # nyquist
-        option(BUILD_EXAMPLE "Build example application" OFF)
+        # libnyquist
+        set(LIBNYQUIST_BUILD_EXAMPLE OFF)
+        set(BUILD_LIBWAVPACK ON)
+        set(LIBNYQUIST_ENABLE_AVX OFF)
         add_subdirectory(libnyquist)
-
-        # Remove the vectorization instructions since those cause a crash for some users
-        function(remove_arch_avx target)
-                get_target_property(target_compile_options ${target} COMPILE_OPTIONS)
-                list(REMOVE_ITEM target_compile_options /arch:AVX)
-                set_target_properties(${target} PROPERTIES COMPILE_OPTIONS "${target_compile_options}")
-        endfunction()
-
-        remove_arch_avx(libwavpack)
-        remove_arch_avx(libnyquist)
-
-        if(WIN32)
-                if(NOT MSVC)
-                        # Remove other instructions that is added on Windows even if not MSVC
-                        function(remove_zi target)
-                                get_target_property(target_compile_options ${target} COMPILE_OPTIONS)
-                                list(REMOVE_ITEM target_compile_options /Zi)
-                                set_target_properties(${target} PROPERTIES COMPILE_OPTIONS "${target_compile_options}")
-                        endfunction()
-
-                        remove_zi(libwavpack)
-                        remove_zi(libnyquist)
-                endif()
-        endif()
 
         # Disable error on Clang16
         if(CLANG)
