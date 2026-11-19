@@ -113,11 +113,6 @@ if(BUILD_OVERLUNKY)
         set(LIBNYQUIST_ENABLE_AVX OFF)
         add_subdirectory(libnyquist)
 
-        # Disable error on Clang16
-        if(CLANG)
-                target_compile_options(libwavpack PRIVATE "-Wno-implicit-function-declaration")
-        endif()
-
         # --------------------------------------------------
         # toml11
         option(TOML11_BUILD_TESTS OFF)
