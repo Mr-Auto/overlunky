@@ -112,7 +112,7 @@ if(BUILD_OVERLUNKY)
         set(BUILD_LIBWAVPACK ON)
         set(LIBNYQUIST_ENABLE_AVX OFF)
         add_subdirectory(libnyquist)
-        target_compile_definitions(libnyquist PRIVATE HAVE___BUILTIN_CLZ)
+        target_compile_definitions(libwavpack PRIVATE HAVE___BUILTIN_CLZ)
 
 
         # --------------------------------------------------
