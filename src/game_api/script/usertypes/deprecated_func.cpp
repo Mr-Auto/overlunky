@@ -46,7 +46,6 @@ void register_usertypes(sol::state& lua)
             recover_mem("darkmode");
     };
 
-
     /// Deprecated
     /// Use `get_entities_by(0, MASK.ANY, layer)` instead
     lua["get_entities_by_layer"] = get_entities_by_layer;
