@@ -22,9 +22,9 @@
 #include <random>
 #include <string>
 
-#include <toml.hpp>
 #include <fmt/chrono.h>
 #include <fmt/core.h>
+#include <toml.hpp>
 
 #include "olfont.h"
 
