@@ -114,7 +114,7 @@ if(BUILD_OVERLUNKY)
         add_subdirectory(libnyquist)
         # Disable error on Clang16
         if(CLANG)
-                target_compile_options(libwavpack PRIVATE "-Wno-implicit-function-declaration")
+                 target_compile_options(libnyquist PRIVATE "SHELL:-include intrin.h")
         endif()
 
 
