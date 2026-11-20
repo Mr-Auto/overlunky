@@ -112,9 +112,9 @@ if(BUILD_OVERLUNKY)
         set(BUILD_LIBWAVPACK ON)
         set(LIBNYQUIST_ENABLE_AVX OFF)
         add_subdirectory(libnyquist)
-        if (CLANG)
-            target_compile_definitions(libnyquist PRIVATE "$<$<COMPILE_LANGUAGE:C>:HAVE___BUILTIN_CLZ>")
-        endif()
+
+        target_compile_definitions(libnyquist PRIVATE "$<$<COMPILE_LANGUAGE:C>:HAVE___BUILTIN_CLZ>")
+
 
         # --------------------------------------------------
         # toml11
