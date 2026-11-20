@@ -112,9 +112,7 @@ if(BUILD_OVERLUNKY)
         set(BUILD_LIBWAVPACK ON)
         set(LIBNYQUIST_ENABLE_AVX OFF)
         add_subdirectory(libnyquist)
-        if (CMAKE_C_COMPILER_ID MATCHES "Clang")
-                target_compile_options(libnyquist PRIVATE -include intrin.h)
-        endif()
+        target_compile_options(libnyquist PRIVATE -include intrin.h)
 
         # --------------------------------------------------
         # toml11
