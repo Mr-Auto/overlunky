@@ -108,6 +108,22 @@
 
 struct Illumination;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void load_libraries(sol::state& lua)
 {
     lua.open_libraries(sol::lib::math, sol::lib::base, sol::lib::string, sol::lib::table, sol::lib::coroutine, sol::lib::package);
@@ -646,7 +662,7 @@ end
     lua["filter_entities"] = [&lua](std::vector<uint32_t> entities, sol::function predicate) -> std::vector<uint32_t>
     {
         return filter_entities(std::move(entities), [&lua, pred = std::move(predicate)](Entity* entity) -> bool
-                               { return pred(lua["cast_entity"](entity)); });
+                               { return pred(entity); });
     };
 
     auto get_entities_by = sol::overload(

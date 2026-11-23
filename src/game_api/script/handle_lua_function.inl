@@ -106,7 +106,7 @@ struct forward_or_cast_entity_impl<T>
 {
     static auto call(Entity* val) noexcept
     {
-        return cast_entity(val);
+        return val;
     }
 };
 

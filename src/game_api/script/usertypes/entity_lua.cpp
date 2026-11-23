@@ -90,24 +90,6 @@ void register_usertypes(sol::state& lua)
     entitydb_type["default_special_offsetx"] = &EntityDB::default_special_offsetx;
     entitydb_type["default_special_offsety"] = &EntityDB::default_special_offsety;
 
-    auto get_overlay = [&lua](Entity& entity)
-    {
-        return lua["cast_entity"](entity.overlay);
-    };
-    auto set_overlay = [](Entity& entity, Entity* overlay)
-    {
-        return entity.overlay = overlay;
-    };
-    auto overlay = sol::property(get_overlay, set_overlay);
-    auto topmost = [&lua](Entity& entity)
-    {
-        return lua["cast_entity"](entity.topmost());
-    };
-    auto topmost_mount = [&lua](Entity& entity)
-    {
-        return lua["cast_entity"](entity.topmost_mount());
-    };
-
     auto get_user_data = [](Entity& entity) -> sol::object
     {
         auto backend = LuaBackend::get_calling_backend();
@@ -138,7 +120,7 @@ void register_usertypes(sol::state& lua)
 
     auto entity_type = lua.new_usertype<Entity>("Entity");
     entity_type["type"] = &Entity::type;
-    entity_type["overlay"] = std::move(overlay);
+    entity_type["overlay"] = &Entity::overlay;
     entity_type["flags"] = &Entity::flags;
     entity_type["more_flags"] = &Entity::more_flags;
     entity_type["uid"] = &Entity::uid;
@@ -171,8 +153,8 @@ void register_usertypes(sol::state& lua)
     entity_type["offsety"] = &Entity::offsety;
     entity_type["rendering_info"] = &Entity::rendering_info;
     entity_type["user_data"] = std::move(user_data);
-    entity_type["topmost"] = topmost;
-    entity_type["topmost_mount"] = topmost_mount;
+    entity_type["topmost"] = &Entity::topmost;
+    entity_type["topmost_mount"] = &Entity::topmost_mount;
     entity_type["overlaps_with"] = overlaps_with;
     entity_type["get_texture"] = &Entity::get_texture;
     entity_type["set_texture"] = &Entity::set_texture;
@@ -332,6 +314,7 @@ void register_usertypes(sol::state& lua)
     /// NoDoc
     /// Get the [Entity](#Entity) behind an uid, without converting to the correct type (do not use, use `get_entity` instead)
     lua["get_entity_raw"] = get_entity_ptr;
+    lua["get_entity"] = get_entity_ptr;
     lua.script(R"##(
         function cast_entity(entity_raw)
             if entity_raw == nil then
@@ -344,18 +327,6 @@ void register_usertypes(sol::state& lua)
             else
                 return entity_raw
             end
-        end
-        function get_entity(ent_uid)
-            if ent_uid == nil then
-                return nil
-            end
-
-            local entity_raw = get_entity_raw(ent_uid)
-            if entity_raw == nil then
-                return nil
-            end
-
-            return cast_entity(entity_raw)
         end
         )##");
     /// Get the [EntityDB](#EntityDB) behind an ENT_TYPE...
