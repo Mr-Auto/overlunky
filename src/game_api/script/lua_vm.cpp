@@ -185,6 +185,38 @@ ImportResult resolve_import(sol::state& vm, const std::string& id, std::string_v
 }
 } // namespace
 
+int sol_lua_push([[maybe_unused]] lua_State* L, [[maybe_unused]] Entity* entity)
+{
+    if (!entity)
+    {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    return sol::stack::unqualified_pusher<Entity*>::push(L, entity);
+
+    // if (!entity)
+    //     return sol::stack::push(L, sol::lua_nil);
+    // return sol::stack::push_userdata<Entity*>(L, entity);
+    // return sol::stack::unqualified_pusher<Entity*>::push(L, entity);
+    // using Tu = sol::meta::unqualified_t<Entity*>;
+    // sol::stack::unqualified_pusher<Tu> p{};
+
+    // return p.push(L, entity);
+    // sol::state_view lua(L);
+    // sol::protected_function cast_entity = lua["cast_entity"];
+    // sol::protected_function_result result = cast_entity(entity);
+    // if (!result.valid())
+    //{
+    //     sol::error err = result;
+    //     throw err;
+    // }
+    // return sol::stack::push(L, result);
+
+    // Bypass sol_lua_push and use the default pusher.
+    // return sol::stack::pusher<Entity*>::push(L, entity);
+}
+
 void populate_lua_state(sol::state& lua, SoundManager* sound_manager)
 {
     auto infinite_loop = [](lua_State* argst, [[maybe_unused]] lua_Debug* argdb)
