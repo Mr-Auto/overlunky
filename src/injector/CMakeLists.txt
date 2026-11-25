@@ -11,6 +11,8 @@ target_link_libraries(injector PRIVATE
     lib_detours_overlunky)
 add_dependencies(injector injected)
 
+set_target_properties(injector PROPERTIES PDB_NAME "overlunky_exe")
+
 if(MSVC AND EXISTS ${SPELUNKY_INSTALL_DIR})
     set_target_properties(injector PROPERTIES
         VS_DEBUGGER_COMMAND_ARGUMENTS "--launch_game \"${SPELUNKY_INSTALL_DIR}\"")

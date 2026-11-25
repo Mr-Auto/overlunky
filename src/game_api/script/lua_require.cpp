@@ -30,7 +30,9 @@ void register_custom_require(sol::state& lua)
     lua["__require"] = lua["require"];
     lua["__loadlib"] = lua["package"]["loadlib"];
     lua["__load"] = lua["load"];
-    lua["__loadfile"] = lua["loadfile"];
+    //lua["__loadfile"] = lua["loadfile"];
+    sol::object loadfile = lua["loadfile"];
+    lua["__loadfile"] = loadfile;
 
     /// Custom implementation to trick Lua into allowing to `require 'lib.module'` more than once given it was called from a different source
     lua["require"] = custom_require;
